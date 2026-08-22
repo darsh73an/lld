@@ -1,0 +1,2 @@
+virtual void startCar() = 0;  means just decalring not defining
+                             the defining will be done by the class which will inherit this function
