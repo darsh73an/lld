@@ -1,2 +1,539 @@
 virtual void startCar() = 0;  means just decalring not defining
                              the defining will be done by the class which will inherit this function
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+// ============================================================
+//                 OOPS - ALL CONCEPTS IN ONE FILE
+// ============================================================
+//
+// 4 MAIN PILLARS OF OOPS:
+//
+// 1. Encapsulation
+// 2. Inheritance
+// 3. Abstraction
+// 4. Polymorphism
+//
+// Other concepts used below:
+// Class, Object, Data Member, Member Function,
+// Constructor, private, protected, public,
+// virtual, pure virtual function, override, etc.
+// ============================================================
+
+
+
+// ============================================================
+// 1. ENCAPSULATION
+// ============================================================
+//
+// Encapsulation = wrapping DATA + FUNCTIONS together
+// inside a class and controlling access to the data.
+//
+// DATA MEMBER:
+//     balance → stores data
+//
+// MEMBER FUNCTIONS:
+//     deposit()    → works on balance
+//     getBalance() → gives us balance
+// ============================================================
+
+class BankAccount
+{
+private:
+
+    // DATA MEMBER
+    // balance stores the account's data.
+    //
+    // private means:
+    // Only BankAccount itself can directly access balance.
+    double balance;
+
+
+public:
+
+    // CONSTRUCTOR
+    //
+    // A constructor is automatically called when
+    // an object is created.
+    BankAccount(double amount)
+    {
+        balance = amount;
+    }
+
+
+    // MEMBER FUNCTION
+    //
+    // deposit() works on the data member 'balance'.
+    void deposit(double amount)
+    {
+        balance += amount;
+    }
+
+
+    // MEMBER FUNCTION
+    //
+    // getBalance() returns the value of balance.
+    double getBalance()
+    {
+        return balance;
+    }
+};
+
+
+
+// ============================================================
+// 2. INHERITANCE
+// ============================================================
+//
+// Inheritance = one class gets properties/functions
+// from another class.
+//
+// Animal = BASE / PARENT class
+// Dog    = DERIVED / CHILD class
+//
+//        Animal
+//           ↑
+//           |
+//          Dog
+// ============================================================
+
+class Animal
+{
+protected:
+
+    // DATA MEMBER
+    //
+    // protected means:
+    // 1. Animal can access it
+    // 2. Child classes can access it
+    // 3. Outside code cannot directly access it
+    string name;
+
+
+public:
+
+    // CONSTRUCTOR
+    Animal(string n)
+    {
+        name = n;
+    }
+
+
+    // MEMBER FUNCTION
+    void eat()
+    {
+        cout << name << " is eating" << endl;
+    }
+};
+
+
+
+// Dog INHERITS from Animal.
+//
+// ':' means inheritance.
+//
+// public Animal means:
+// Dog publicly inherits from Animal.
+class Dog : public Animal
+{
+public:
+
+    // DOG CONSTRUCTOR
+    //
+    // : Animal(n)
+    // calls the constructor of the parent class.
+    Dog(string n) : Animal(n)
+    {
+    }
+
+
+    // MEMBER FUNCTION belonging to Dog
+    void bark()
+    {
+        // name belongs to Animal.
+        //
+        // Dog can access it because name is PROTECTED.
+        cout << name << " is barking" << endl;
+    }
+};
+
+
+
+// ============================================================
+// 3. ABSTRACTION
+// ============================================================
+//
+// Abstraction = showing WHAT something should do,
+// while hiding HOW it is implemented.
+//
+// Shape says:
+// "Every shape must have area()."
+//
+// But Shape doesn't tell us HOW to calculate the area.
+//
+// Circle and Rectangle provide their own implementation.
+// ============================================================
+
+
+// ABSTRACT CLASS
+class Shape
+{
+public:
+
+    // PURE VIRTUAL FUNCTION
+    //
+    // = 0 means this function has no implementation here.
+    //
+    // Child classes MUST implement area().
+    virtual void area() = 0;
+};
+
+
+
+// Circle INHERITS from Shape.
+class Circle : public Shape
+{
+private:
+
+    // DATA MEMBER
+    double radius;
+
+
+public:
+
+    // CONSTRUCTOR
+    Circle(double r)
+    {
+        radius = r;
+    }
+
+
+    // OVERRIDE
+    //
+    // Circle provides its own implementation of
+    // Shape's pure virtual area() function.
+    void area() override
+    {
+        cout << "Circle area = "
+             << 3.14 * radius * radius
+             << endl;
+    }
+};
+
+
+
+// Rectangle INHERITS from Shape.
+class Rectangle : public Shape
+{
+private:
+
+    // DATA MEMBERS
+    double length;
+    double width;
+
+
+public:
+
+    // CONSTRUCTOR
+    Rectangle(double l, double w)
+    {
+        length = l;
+        width = w;
+    }
+
+
+    // OVERRIDE
+    //
+    // Rectangle provides its own implementation
+    // of area().
+    void area() override
+    {
+        cout << "Rectangle area = "
+             << length * width
+             << endl;
+    }
+};
+
+
+
+// ============================================================
+// 4. POLYMORPHISM
+// ============================================================
+//
+// Polymorphism = ONE INTERFACE, MANY FORMS.
+//
+// Same function:
+//
+//     sound()
+//
+// But different classes provide different behavior.
+//
+// Dog  → Woof
+// Cat  → Meow
+// ============================================================
+
+
+class Animal2
+{
+public:
+
+    // VIRTUAL FUNCTION
+    //
+    // virtual allows C++ to choose the correct
+    // child function at RUNTIME.
+    virtual void sound()
+    {
+        cout << "Animal makes a sound" << endl;
+    }
+
+
+    // VIRTUAL DESTRUCTOR
+    //
+    // Good practice when using inheritance
+    // and deleting objects through a base pointer.
+    virtual ~Animal2()
+    {
+    }
+};
+
+
+
+// Dog2 INHERITS from Animal2.
+class Dog2 : public Animal2
+{
+public:
+
+    // OVERRIDING sound()
+    //
+    // Dog has its own version of sound().
+    void sound() override
+    {
+        cout << "Dog says: Woof!" << endl;
+    }
+};
+
+
+
+// Cat2 INHERITS from Animal2.
+class Cat2 : public Animal2
+{
+public:
+
+    // OVERRIDING sound()
+    //
+    // Cat has its own version of sound().
+    void sound() override
+    {
+        cout << "Cat says: Meow!" << endl;
+    }
+};
+
+
+
+// ============================================================
+//                       MAIN FUNCTION
+// ============================================================
+
+int main()
+{
+
+    // ========================================================
+    // ENCAPSULATION DEMO
+    // ========================================================
+
+    cout << "===== ENCAPSULATION =====" << endl;
+
+
+    // OBJECT
+    //
+    // account is an OBJECT of BankAccount class.
+    //
+    // Class  → BankAccount
+    // Object → account
+    BankAccount account(1000);
+
+
+    // We CANNOT do:
+    //
+    // account.balance = 5000;
+    //
+    // ❌ ERROR
+    //
+    // Because balance is PRIVATE.
+
+
+    // Instead, we use the public member function.
+    account.deposit(500);
+
+
+    // getBalance() gives us the private data.
+    cout << "Balance = "
+         << account.getBalance()
+         << endl;
+
+
+
+    // ========================================================
+    // INHERITANCE DEMO
+    // ========================================================
+
+    cout << "\n===== INHERITANCE =====" << endl;
+
+
+    // Creating a Dog OBJECT.
+    Dog dog("Bruno");
+
+
+    // eat() belongs to Animal.
+    //
+    // Dog can use it because Dog inherits from Animal.
+    dog.eat();
+
+
+    // bark() belongs to Dog.
+    dog.bark();
+
+
+
+    // ========================================================
+    // ABSTRACTION DEMO
+    // ========================================================
+
+    cout << "\n===== ABSTRACTION =====" << endl;
+
+
+    // We CANNOT create an object of Shape:
+    //
+    // Shape shape;
+    //
+    // ❌ ERROR
+    //
+    // Because Shape is an ABSTRACT CLASS.
+
+
+    // Shape pointer pointing to Circle object.
+    Shape* shape1 = new Circle(5);
+
+
+    // Shape pointer pointing to Rectangle object.
+    Shape* shape2 = new Rectangle(10, 4);
+
+
+    // We don't need to know how Circle calculates area.
+    // We simply call area().
+    shape1->area();
+
+
+    // We don't need to know how Rectangle calculates area.
+    // We simply call area().
+    shape2->area();
+
+
+    // Free dynamically allocated memory.
+    delete shape1;
+    delete shape2;
+
+
+
+    // ========================================================
+    // POLYMORPHISM DEMO
+    // ========================================================
+
+    cout << "\n===== POLYMORPHISM =====" << endl;
+
+
+    // BASE CLASS POINTER
+    Animal2* animal;
+
+
+    // animal points to a Dog2 object.
+    animal = new Dog2();
+
+
+    // Same function call:
+    //
+    // sound()
+    //
+    // But Dog2's sound() executes.
+    //
+    // Output:
+    // Dog says: Woof!
+    animal->sound();
+
+
+    // Delete Dog2 object.
+    delete animal;
+
+
+    // Now the SAME pointer points to Cat2.
+    animal = new Cat2();
+
+
+    // Same function call:
+    //
+    // sound()
+    //
+    // But now Cat2's sound() executes.
+    //
+    // Output:
+    // Cat says: Meow!
+    animal->sound();
+
+
+    // Delete Cat2 object.
+    delete animal;
+
+
+    // Program finished successfully.
+    return 0;
+}
+
+
+                         OOPS
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+   Encapsulation     Inheritance       Abstraction
+        │                 │                 │
+   Data + Functions   Parent → Child    Hide implementation
+        │                 │                 │
+   private/public     Animal → Dog      Shape → Circle
+        │
+        │
+        └───────────────┐
+                        ▼
+                  Polymorphism
+                        │
+                 Same function
+                        │
+                 ┌──────┴──────┐
+                 ▼             ▼
+              Dog sound     Cat sound
+                Woof          Meow
+
+
+
+Class          → Blueprint
+Object         → Actual instance of class
+
+Data member    → Variable inside class
+Member function→ Function inside class
+
+private        → Only same class
+protected      → Same class + child classes
+public         → Accessible from outside
+
+Constructor    → Runs when object is created
+
+Inheritance    → Child gets from parent
+Abstraction    → Hide implementation
+Encapsulation   → Protect/wrap data + functions
+Polymorphism   → Same interface, different behavior
+
+virtual        → Enables runtime polymorphism
+override       → Child replaces parent's virtual function
+= 0            → Pure virtual function
