@@ -1,6 +1,18 @@
 virtual void startCar() = 0;  means just decalring not defining
                              the defining will be done by the class which will inherit this function
 
+class Animal {              // ABSTRACT class
+    virtual void sound() = 0;
+};
+
+class Dog : public Animal { // CONCRETE class
+    void sound() override {
+        cout << "Bark";
+    }
+};
+Abstract class: A class with at least one pure virtual method; its object cannot be created.
+Concrete class: A class that implements all pure virtual methods; its object can be created.
+
 #include <iostream>
 #include <string>
 using namespace std;
