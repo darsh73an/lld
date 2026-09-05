@@ -13,9 +13,79 @@ class Dog : public Animal { // CONCRETE class
 Abstract class: A class with at least one pure virtual method; its object cannot be created.
 Concrete class: A class that implements all pure virtual methods; its object can be created.
 
-#include <iostream>
-#include <string>
-using namespace std;
+Say it naturally:
+
+“An abstract class is a class that has at least one pure virtual method, so we cannot create its object directly.
+ A concrete class is a class that implements all the inherited pure virtual methods, so we can create its object.”
+
+
+
+
+
+
+
+
+
+// Composition  this is the symbol of composition (dependent of used object)--->>> ◆──
+
+// Bus ◆──────── Seats
+
+class Engine {};
+
+class Car {
+    Engine engine;  // Car HAS-A Engine
+};
+
+🎤 Interview answer
+“Composition is a strong has-a relationship where one class owns another object. The contained object's lifetime is dependent on the container object.
+ For example, a Car has an Engine. When the Car is destroyed, its Engine is also destroyed.
+
+    
+
+
+
+
+
+
+// Aggregation    this is the symbol of aggregation (independent of contained obj)--->>> ◇──
+
+// Department ◇──────── Teacher    Teacher is independent of department
+
+Definition:
+Aggregation is a "has-a" relationship where one class contains another class, but the contained object can exist independently.
+
+Simple explanation:
+The parent and child have a relationship, but their lifetimes are independent.
+
+Example:
+A Department has Teachers. If the department is deleted, the teachers can still exist.
+
+class Teacher {
+};
+
+class Department {
+    vector<Teacher*> teachers;  // Department has Teachers
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // ============================================================
