@@ -98,13 +98,9 @@ SOLID is a set of 5 design principles that help us write code that is maintainab
 
 
 S: The Chef cooks, the Waiter serves. (Don't mix jobs).
-
 O: You can add new items to the menu without rebuilding the kitchen.
-
 L: A substitute chef can step in and cook exactly like the main chef without ruining the dish.
-
 I: Customers only get a food menu, not the kitchen equipment manual.
-
 D: The manager depends on the role of a chef (abstraction), not specifically on "Chef John" (concrete).
 
 
