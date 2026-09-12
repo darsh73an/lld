@@ -104,6 +104,34 @@ I: Customers only get a food menu, not the kitchen equipment manual.
 D: The manager depends on the role of a chef (abstraction), not specifically on "Chef John" (concrete).
 
 
+S-> Single responsibility principles (SRP)
+
+it means a class should have a single responsibility means
+ a class should have signle work to perform but it can have multiple methods
+
+
+O-> Open Close Principles
+
+O-> integrate a new feature in project
+C-> remove a feature from he project
+
+
+O->>
+and imp thing is here we are not touching the anything in the project 
+if we have to implement a feature or update a feature we dont have to remove whole old feature we just create a new clas for new feature and attach it to parent class
+
+ eg-> if we want to add a new feature or funcationality of billing in cart then we have to create a seperate
+  class discounted new feature one then has a relationship to billing class in cart class
+
+
+c->>
+we just remove the class that we have created to use the feature
+Billing
+ ├── GSTBilling
+ └── DiscountBilling  ← new feature  w ehave added nowwe are removing this not whole billing
+
+
+
 
 
 
