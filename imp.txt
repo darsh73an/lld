@@ -182,10 +182,77 @@ In this example, `Dog` and `Cat` are subclasses of `Animal`. The `useAnimal` fun
 
 
 
+I->  Interface Segregation Principle
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+### Key Takeaway:
+- **Signature Rule**: Methods should have meaningful names.
+- **Property Rule**: Properties should be private and accessed through public methods.
+- **Cohesion Rule**: Methods should be related to a single responsibility.
+- **Coupling Rule**: Methods should be loosely coupled.
+- **Dependency Rule**: Methods should depend on abstractions, not concrete implementations.
+
+### Key Takeaway:
+- **Coupling**: How much one part of a program depends on another part.
+  - **High Coupling**: Methods depend on implementation details.
+  - **Low Coupling**: Methods depend on abstractions.
+- **Dependency**: How one class relies on another class.
+  - **High Dependency**: Directly uses implementation details.
+  - **Low Dependency**: Uses abstractions.
+
+By keeping coupling and dependency low, you make your code more modular and easier to maintain.
+
+
+These rules will help you design more modular and maintainable classes.
+
+
+
+
+
+
+
+
+
+
+
+
+>>> jut D/B Normal class and Abstract class
+**Normal Class**:
+```cpp
+class NormalClass {
+public:
+    void normalMethod() {
+        cout << "Normal Method" << endl;
+    }
+};
+```
+**Abstract Class**:
+```cpp
+class AbstractClass {
+public:
+    virtual void abstractMethod() const = 0;
+};
+class ConcreteClass : public AbstractClass {
+public:
+    void abstractMethod() const override {
+        cout << "Concrete Method" << endl;
+    }
+};
+```
+In the abstract class, `abstractMethod` is declared but not implemented, forcing any subclass to provide its own implementation.
 
 
 
