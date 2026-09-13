@@ -133,6 +133,46 @@ Billing
 
 
 
+L-> Liskov Substution Principle
+
+👉 Child should behave like a proper replacement for Parent.
+
+Objects of a child class should be replaceable with objects of the parent class without breaking the correctness of the program.
+then thee code is not breaking liskov principle 
+
+eg->
+A class has methods m1(), m2()
+B class has methods m3()
+so in any other class if we want to use all these methods we can send reference of B* b ie child class with extended mwthods of A* a
+
+
+**Simplest Example**:
+class Animal {
+public:
+    virtual void makeSound() const = 0;
+};
+class Dog : public Animal {
+public:
+    void makeSound() const override {
+        cout << "Woof" << endl;
+    }
+};
+class Cat : public Animal {
+public:
+    void makeSound() const override {
+        cout << "Meow" << endl;
+    }
+}
+void sound(Animal& animal) {
+    animal.makeSound();
+}
+int main() {
+    sound(*new Dog());  // Correct
+    sound(*new Cat());  // Correct
+    return 0;
+}
+In this example, `Dog` and `Cat` are subclasses of `Animal`. The `useAnimal` function should work with any `Animal` object, whether it's a `Dog` or a `Cat`.
+
 
 
 
