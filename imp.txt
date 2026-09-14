@@ -182,7 +182,22 @@ In this example, `Dog` and `Cat` are subclasses of `Animal`. The `useAnimal` fun
 
 
 
-I->  Interface Segregation Principle
+I — Interface Segregation Principle (ISP)
+Definition->
+A class should not be forced to depend on methods it does not use.
+
+Simple explanation
+Instead of creating one large interface, split it into smaller, specific interfaces.
+
+class Worker {
+public:
+    virtual void work() = 0;
+    virtual void eat() = 0;
+};
+// Bad -> A robot doesn't eat()
+
+"ISP says that child should not be forced to depend on methods they don't need.  eg-> Math teahcer should not be forced to implement physical_education() methods
+ We achieve this by splitting large interfaces into smaller, focused interfaces."
 
 
 
@@ -197,16 +212,20 @@ I->  Interface Segregation Principle
 
 
 
+### Cohesion Rule:
+- **Definition**: Methods should be related to a single responsibility and should be grouped together.
+### Coupling Rule:
+- **Definition**: Methods should be loosely coupled, meaning they should not depend on each other unnecessarily.
+### Dependency Rule:
+- **Definition**: Methods should depend on abstractions, not concrete implementations.
+### Exception Rule:
+- **Definition**: Methods should handle exceptions gracefully and provide meaningful error messages.
+### Invariant Rule:
+- **Definition**: Methods should maintain a state invariant, ensuring certain properties of the object remain 
+unchanged throughout the method execution.
 
 ### Key Takeaway:
-- **Signature Rule**: Methods should have meaningful names.
-- **Property Rule**: Properties should be private and accessed through public methods.
-- **Cohesion Rule**: Methods should be related to a single responsibility.
-- **Coupling Rule**: Methods should be loosely coupled.
-- **Dependency Rule**: Methods should depend on abstractions, not concrete implementations.
-
-### Key Takeaway:
-- **Coupling**: How much one part of a program depends on another part.
+- **Coupling**: How much one part of a program depends on another part. 
   - **High Coupling**: Methods depend on implementation details.
   - **Low Coupling**: Methods depend on abstractions.
 - **Dependency**: How one class relies on another class.
@@ -217,6 +236,50 @@ By keeping coupling and dependency low, you make your code more modular and easi
 
 
 These rules will help you design more modular and maintainable classes.
+
+
+
+
+
+
+
+// Virtual Functions
+
+
+"Virtual functions allow a parent pointer or reference to call the correct overridden method
+ of the actual child object at runtime."
+
+class Animal {
+public:
+    virtual void sound() = 0;
+};
+
+class Dog : public Animal {
+public:
+    void sound() override {
+        cout << "Bark";
+    }
+};
+
+class Cat : public Animal {
+public:
+    void sound() override {
+        cout << "Meow";
+    }
+};
+
+Animal* a;
+
+a = new Dog();
+a->sound();   // Bark
+
+a = new Cat();
+a->sound();   // Meow
+
+In complile time c++ kows a -> Animal* (class)
+In runtime c++ knows a -> Dog -> sound() -> Bark
+In runtime c++ knows a -> Cat -> sound() -> meow
+
 
 
 
