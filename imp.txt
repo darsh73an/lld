@@ -133,6 +133,9 @@ Billing
 
 
 
+
+
+
 L-> Liskov Substution Principle
 
 👉 Child should behave like a proper replacement for Parent.
@@ -204,6 +207,11 @@ public:
 
 
 
+// D
+-> Dependency Inversion Principle (DIP) means high-level classes should depend on abstractions, not directly on low-level classes.
+abstraction means abstract class which means what a class should do
+
+-> Interview answer: DIP reduces dependency between classes by making them communicate through abstractions, so implementations can be changed easily.
 
 
 
@@ -212,17 +220,636 @@ public:
 
 
 
-### Cohesion Rule:
-- **Definition**: Methods should be related to a single responsibility and should be grouped together.
-### Coupling Rule:
-- **Definition**: Methods should be loosely coupled, meaning they should not depend on each other unnecessarily.
-### Dependency Rule:
-- **Definition**: Methods should depend on abstractions, not concrete implementations.
-### Exception Rule:
-- **Definition**: Methods should handle exceptions gracefully and provide meaningful error messages.
-### Invariant Rule:
-- **Definition**: Methods should maintain a state invariant, ensuring certain properties of the object remain 
-unchanged throughout the method execution.
+
+
+
+
+UML Diagram
+
+Definition: UML (Unified Modeling Language) is a standard way to visually represent the structure and behavior of a software system.
+
+For LLD, the most important UML diagrams are:
+
+Class Diagram → classes + relationships
+Sequence Diagram → how objects interact over time
+
+
+
+
+
+
+
+
+
+## Singleton Pattern
+
+### Definition
+
+Singleton ensures that a class has only one object throughout the
+application and provides a way to access that object.
+
+
+### Simple Explanation
+
+Normally, a class can create multiple objects.
+
+Singleton restricts the class to creating only ONE object.
+
+One class → One object → Everyone uses the same object.
+
+
+### Example: Game Settings
+
+Suppose a game should have only one settings object:
+
+class GameSettings {
+
+private:
+
+    GameSettings() {}
+
+public:
+
+    static GameSettings& getInstance() {
+
+        static GameSettings settings;
+
+        return settings;
+    }
+
+    void setVolume(int v) {
+        cout << "Volume: " << v;
+    }
+};
+
+
+### Usage
+
+GameSettings::getInstance().setVolume(80);
+
+
+### Why Use Singleton?
+
+Without Singleton:
+
+Game
+ ├── Settings object 1
+ ├── Settings object 2
+ └── Settings object 3
+
+With Singleton:
+
+Game
+ ├── Menu ──────┐
+ ├── Player ────┼──→ ONE GameSettings object
+ └── Audio ─────┘
+
+
+### Important Parts
+
+private GameSettings()
+→ Prevents outside code from creating objects directly.
+
+static GameSettings settings
+→ Creates only one object.
+
+static GameSettings& getInstance()
+→ Provides access to that single object.
+
+
+### Interview Answer
+
+"Singleton is a creational design pattern that ensures a class has only
+one instance and provides a global access point to that instance."
+
+
+### Remember
+
+Singleton = One class → One object → Global access.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Factory Pattern
+
+### Definition
+
+Factory Pattern creates objects without the calling code directly deciding
+which concrete class to create.
+
+### Simple Explanation
+
+Instead of creating objects directly:
+
+Car c;
+Bike b;
+
+We ask a Factory to create the object:
+
+You → Factory → Car/Bike
+
+
+### Example
+
+class Vehicle {
+public:
+    virtual void drive() = 0;
+};
+
+class Car : public Vehicle {
+public:
+    void drive() override {
+        cout << "Driving Car";
+    }
+};
+
+class Bike : public Vehicle {
+public:
+    void drive() override {
+        cout << "Riding Bike";
+    }
+};
+
+
+### Factory
+
+class VehicleFactory {
+public:
+    static Vehicle* create(string type) {
+
+        if (type == "car")
+            return new Car();
+
+        if (type == "bike")
+            return new Bike();
+
+        return nullptr;
+    }
+};
+
+
+### Usage
+
+Vehicle* v = VehicleFactory::create("car");
+v->drive();
+
+
+### Why Use Factory?
+
+Without Factory:
+
+Main code
+ ├── knows Car
+ ├── knows Bike
+ └── creates them directly
+
+
+With Factory:
+
+Main code
+      ↓
+   Factory
+    ↙   ↘
+  Car   Bike
+
+
+The object creation logic is kept in one place.
+
+
+### Interview Answer
+
+"Factory is a creational design pattern that centralizes object creation
+and allows the client to create objects without directly depending on
+their concrete classes."
+
+
+### Remember
+
+Factory = Object creation is handled by a separate Factory.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Strategy Pattern
+
+### Definition
+Allows us to choose different ways of performing an operation without
+changing the main class.
+
+### Simple Explanation
+Different behavior → separate classes → choose one at runtime.
+
+Example: Payment
+Payment → UPI / CreditCard / PayPal
+
+### Example
+
+class PaymentStrategy {
+public:
+    virtual void pay() = 0;
+};
+
+class UPI : public PaymentStrategy {
+public:
+    void pay() override {
+        cout << "UPI Payment";
+    }
+};
+
+class CreditCard : public PaymentStrategy {
+public:
+    void pay() override {
+        cout << "Card Payment";
+    }
+};
+
+class Payment {
+    PaymentStrategy* strategy;
+
+public:
+    Payment(PaymentStrategy* s) : strategy(s) {}
+
+    void pay() {
+        strategy->pay();
+    }
+};
+
+### Usage
+
+UPI upi;
+Payment p(&upi);
+p.pay();
+
+### Why use it?
+Avoid putting multiple behaviors inside one large class.
+
+### Interview Answer
+"Strategy separates different behaviors into separate classes and allows
+us to choose the required behavior at runtime."
+
+### Remember
+Strategy = Different ways → Separate classes → Choose one.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Observer Pattern
+
+### Definition
+Observer Pattern allows multiple objects to automatically receive updates
+when another object's state changes.
+
+### Simple Explanation
+One object changes → automatically notifies many objects.
+
+Example:
+YouTube Channel → Subscribers
+
+Channel = Subject
+Subscribers = Observers
+
+### Example
+
+class Observer {
+public:
+    virtual void update() = 0;
+};
+
+class Subscriber : public Observer {
+public:
+    void update() override {
+        cout << "New video uploaded!";
+    }
+};
+
+class YouTubeChannel {
+    vector<Observer*> subscribers;
+
+public:
+    void subscribe(Observer* o) {
+        subscribers.push_back(o);
+    }
+
+    void uploadVideo() {
+        for (auto o : subscribers)
+            o->update();
+    }
+};
+
+### Why use it?
+When one object's change needs to automatically notify multiple objects.
+
+### Interview Answer
+"Observer is a behavioral design pattern where multiple objects subscribe
+to a subject and are automatically notified when its state changes."
+
+### Remember
+Observer = One object changes → Notify many objects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Builder Pattern
+
+### Definition
+Builder Pattern creates complex objects step-by-step.
+
+### Simple Explanation
+Complex object → Set required/optional values → Build object.
+
+Example:
+Computer → CPU → RAM → Storage → GPU → Computer
+
+### Example
+
+class Computer {
+public:
+    string cpu;
+    int ram;
+    int storage;
+};
+
+class ComputerBuilder {
+    Computer pc;
+
+public:
+    ComputerBuilder& setCPU(string c) {
+        pc.cpu = c;
+        return *this;
+    }
+
+    ComputerBuilder& setRAM(int r) {
+        pc.ram = r;
+        return *this;
+    }
+
+    ComputerBuilder& setStorage(int s) {
+        pc.storage = s;
+        return *this;
+    }
+
+    Computer build() {
+        return pc;
+    }
+};
+
+### Usage
+
+Computer pc = ComputerBuilder()
+                .setCPU("i5")
+                .setRAM(16)
+                .setStorage(512)
+                .build();
+
+### Why use it?
+Avoids large constructors and makes object creation clean and readable.
+
+### Interview Answer
+"Builder is a creational design pattern used to construct complex objects
+step-by-step, especially when they have many optional parameters."
+
+### Remember
+Builder = Complex object → Build step-by-step.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Adapter Pattern
+
+### Definition
+Adapter Pattern allows incompatible classes/interfaces to work together.
+
+### Simple Explanation
+Existing class has a different interface → Adapter converts it
+to the interface our system expects.
+
+Example:
+Phone → Charger Adapter → Wall Socket
+
+### Example
+
+class Payment {
+public:
+    virtual void pay() = 0;
+};
+
+class OldPayment {
+public:
+    void makePayment() {
+        cout << "Old payment";
+    }
+};
+
+class PaymentAdapter : public Payment {
+    OldPayment oldPayment;
+
+public:
+    void pay() override {
+        oldPayment.makePayment();
+    }
+};
+
+### Usage
+
+Payment* p = new PaymentAdapter();
+p->pay();
+
+### Why use it?
+To use existing/third-party code whose interface doesn't match
+our system, without modifying that code.
+
+### Interview Answer
+"Adapter is a structural design pattern that converts an existing
+interface into the interface expected by the client."
+
+### Remember
+Adapter = Incompatible interface → Adapter → Compatible interface.
+
+
+
+
+
+
+
+
+
+## Decorator Pattern
+
+### Definition
+Decorator is a structural design pattern that adds new functionality to an existing object without modifying its original class.
+
+### Simple Explanation
+Wrap the existing object inside a separate decorator class and add extra behavior.
+
+Existing Object → Decorator → More behavior
+
+### Example
+Coffee → MilkDecorator → SugarDecorator
+
+### Why use it?
+- Add features without modifying existing class
+- Follow Open/Closed Principle
+- Avoid creating many subclasses
+
+### Interview Answer
+"Decorator is a structural design pattern that dynamically adds additional behavior to an object without modifying its original class."
+
+### Remember
+Existing object → Wrap it → Add behavior
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 1. Requirements Gathering
+
+### Definition
+Understanding what the system should do before designing it.
+
+### Simple Explanation
+Before writing code, identify:
+- What features are needed?
+- Who will use the system?
+- What should the system do?
+- What are the constraints?
+
+### Example
+Parking Lot:
+- Users → Driver, Admin
+- Features → Park, Remove, Calculate fee, Show spots
+- Vehicles → Car, Bike, Truck
+- Constraints → Spot sizes, Pricing
+
+### Why use it?
+To clearly understand the problem before designing classes and code.
+
+### Interview Answer
+"Requirements gathering is the process of identifying functional requirements, users, constraints, and important use cases before starting the system design."
+
+### Remember
+Understand problem → Features → Users → Constraints → Design
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Key Takeaway:
 - **Coupling**: How much one part of a program depends on another part. 
